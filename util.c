@@ -14,6 +14,7 @@
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 #include "util.h"
+#include "parse.h"
 
 /***************************************************************/
 /* Main memory.                                                */
@@ -34,6 +35,7 @@ CPU_State CURRENT_STATE;
 int RUN_BIT;		/* run bit */
 int FETCH_BIT;		/* instruction fetch bit */
 int INSTRUCTION_COUNT;
+int JUMP_BIT;
 
 uint64_t MAX_INSTRUCTION_NUM;
 uint64_t CYCLE_COUNT;
@@ -183,8 +185,9 @@ void mem_write_32(uint32_t address, uint32_t value) {
 void cycle() {
 
     process_instruction();
-    if (INSTRUCTION_COUNT >= MAX_INSTRUCTION_NUM) {
-        RUN_BIT = FALSE;
+
+    if (INSTRUCTION_COUNT >= MAX_INSTRUCTION_NUM) { 
+	    RUN_BIT = FALSE;
     }
 
     CYCLE_COUNT++;

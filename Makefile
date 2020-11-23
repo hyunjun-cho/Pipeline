@@ -8,7 +8,7 @@ clean:
 help:
 	@echo "The following options are provided with Make\n\t-make:\t\tbuild simulator\n\t-make clean:\tclean the build\n\t-make test:\ttest your simulator"
 
-test: sce212sim test_1 test_2 test_3 test_4 test_5 test_leaf test_beq test_double_loop test_jal test_various_inst
+test: 	sce212sim test_1 test_2 test_3 test_4 test_5 test_leaf test_beq test_double_loop test_jal test_various_inst
 
 test_1:
 	@echo "Testing example01"; \

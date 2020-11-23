@@ -51,7 +51,7 @@ void IF_Stage() {
 }
 
 void ID_Stage() {
-
+	
 	if(CURRENT_STATE.PIPE[ID_STAGE] == 0)
 		return;
 
@@ -69,39 +69,30 @@ void ID_Stage() {
 		switch(OPCODE(inst)) {
 			case 0x09:
 			case 0x23:	
-				if(RS(inst) == CURRENT_STATE.EX_MEM_DEST) {
+				if(RS(inst) == CURRENT_STATE.EX_MEM_ALU_OUT) {
 					CURRENT_STATE.EX_MEM_W_VALUE = FALSE;
+					CURRENT_STATE.EX_MEM_ALU_OUT = FALSE;
 					CURRENT_STATE.PC -= 4;
 					stall_var = TRUE;
 					return;
 				}
 				CURRENT_STATE.EX_MEM_W_VALUE = FALSE;
+				CURRENT_STATE.EX_MEM_ALU_OUT = FALSE;
 				break;
 			case 0x00:
 				if(inst->func_code != 0x08) {
-					if(RS(inst) == CURRENT_STATE.EX_MEM_DEST || RT(inst) == CURRENT_STATE.EX_MEM_DEST) {
+					if(RS(inst) == CURRENT_STATE.EX_MEM_ALU_OUT || RT(inst) == CURRENT_STATE.EX_MEM_ALU_OUT) {
 						CURRENT_STATE.EX_MEM_W_VALUE = FALSE;
+						CURRENT_STATE.EX_MEM_ALU_OUT = FALSE;
 						CURRENT_STATE.PC -= 4;
 						stall_var = TRUE;
 						return;
 					}
 				}
 				CURRENT_STATE.EX_MEM_W_VALUE = FALSE;
+				CURRENT_STATE.EX_MEM_ALU_OUT = FALSE;
 				break;
 		}
-	}
-
-	if(RS(inst) == CURRENT_STATE.EX_MEM_DEST) {
-		CURRENT_STATE.EX_MEM_FORWARD_VALUE = CURRENT_STATE.REGS[RS(inst)];
-		CURRENT_STATE.EX_MEM_FORWARD_REG = RS(inst);
-		CURRENT_STATE.REGS[RS(inst)] = CURRENT_STATE.EX_MEM_ALU_OUT;
-		FORWARDING_BIT = FALSE;
-	}
-	if(RT(inst) == CURRENT_STATE.EX_MEM_DEST) {
-		CURRENT_STATE.EX_MEM_FORWARD_VALUE = CURRENT_STATE.REGS[RT(inst)];
-		CURRENT_STATE.EX_MEM_FORWARD_REG = RT(inst);
-		CURRENT_STATE.REGS[RT(inst)] = CURRENT_STATE.EX_MEM_ALU_OUT;
-		FORWARDING_BIT = FALSE;
 	}
 
 	switch(OPCODE(inst)) {
@@ -119,8 +110,13 @@ void ID_Stage() {
 			break;
 		case 0x00:
 			if(inst-> func_code == 0x08) {
+				CURRENT_STATE.ID_EX_REG1 = CURRENT_STATE.REGS[RS(inst)];
 				CURRENT_STATE.JUMP_PC = CURRENT_STATE.REGS[RS(inst)];
 				JUMP_BIT = TRUE;
+			}
+			else{
+				CURRENT_STATE.ID_EX_REG1 = CURRENT_STATE.REGS[RS(inst)];
+				CURRENT_STATE.ID_EX_REG2 = CURRENT_STATE.REGS[RT(inst)];
 			}
 			break;
 		case 0x02:
@@ -136,12 +132,15 @@ void ID_Stage() {
 			break;
 		case 0x23:
 			CURRENT_STATE.REGS_LOCK[RT(inst)] = TRUE;
+			CURRENT_STATE.EX_MEM_W_VALUE = TRUE;
+			CURRENT_STATE.EX_MEM_ALU_OUT = RT(inst);
+			CURRENT_STATE.EX_MEM_FORWARD_VALUE = RT(inst);
+			FORWARDING_BIT = FALSE;
 			break;
 	}
 }
 void EX_Stage() {
 	instruction* hazard_inst = get_inst_info(CURRENT_STATE.PIPE[MEM_STAGE]);
-	int forward_rs = 0, forward_rt = 0;
 
 	if(CURRENT_STATE.PIPE[EX_STAGE] == 0)
 		return;
@@ -170,75 +169,62 @@ void EX_Stage() {
 			}
 			break;
 		case 0x09:
-			CURRENT_STATE.EX_MEM_ALU_OUT = SIGN_EX(IMM(inst)) + CURRENT_STATE.REGS[RS(inst)];
-			CURRENT_STATE.EX_MEM_DEST = RT(inst);
+			CURRENT_STATE.MEM_WB_ALU_OUT = SIGN_EX(IMM(inst)) + CURRENT_STATE.REGS[RS(inst)];
 			break;
 		case 0x0c:
-			CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RS(inst)] & (IMM(inst));
-			CURRENT_STATE.EX_MEM_DEST = RT(inst);
+			CURRENT_STATE.REGS[RT(inst)] = CURRENT_STATE.REGS[RS(inst)] & (IMM(inst));
 			break;
 		case 0x00:
-			CURRENT_STATE.EX_MEM_DEST = RD(inst);
 			if(inst->func_code == 0x8){
 				CURRENT_STATE.PIPE[ID_STAGE] = FALSE;
 			}
 			else if(inst->func_code == 0x23 || inst->func_code == 0x22) {
-				CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RS(inst)] - CURRENT_STATE.REGS[RT(inst)];
+				CURRENT_STATE.REGS[RD(inst)] = CURRENT_STATE.REGS[RS(inst)] - CURRENT_STATE.REGS[RT(inst)];
 			}
 			else if(inst->func_code == 0x00) {
-				CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RT(inst)] << SHAMT(inst);
+				CURRENT_STATE.REGS[RD(inst)] = CURRENT_STATE.REGS[RT(inst)] << SHAMT(inst);
 			}
 			else if(inst->func_code == 0x02) {
-				CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RT(inst)] >> SHAMT(inst);
+				CURRENT_STATE.REGS[RD(inst)] = CURRENT_STATE.REGS[RT(inst)] >> SHAMT(inst);
 			}
 			else if(inst->func_code == 0x2b || inst->func_code == 0x2a) {
-				CURRENT_STATE.EX_MEM_ALU_OUT = (CURRENT_STATE.REGS[RS(inst)] < CURRENT_STATE.REGS[RT(inst)]) ? 1 : 0;
+				CURRENT_STATE.REGS[RD(inst)] = (CURRENT_STATE.REGS[RS(inst)] < CURRENT_STATE.REGS[RT(inst)]) ? 1 : 0;
 			}	
 			else if(inst->func_code == 0x25) {
-				CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RS(inst)] | CURRENT_STATE.REGS[RT(inst)];
+				CURRENT_STATE.REGS[RD(inst)] = CURRENT_STATE.REGS[RS(inst)] | CURRENT_STATE.REGS[RT(inst)];
 			}
 			else if(inst->func_code == 0x27) {
-				CURRENT_STATE.EX_MEM_ALU_OUT = ~(CURRENT_STATE.REGS[RS(inst)] | CURRENT_STATE.REGS[RT(inst)]);
+				CURRENT_STATE.REGS[RD(inst)] += ~(CURRENT_STATE.REGS[RS(inst)] | CURRENT_STATE.REGS[RT(inst)]);
 			}
 			else if(inst->func_code == 0x21 || inst->func_code == 0x20) {
-				CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RS(inst)] + CURRENT_STATE.REGS[RT(inst)];
+				CURRENT_STATE.REGS[RD(inst)] = CURRENT_STATE.REGS[RS(inst)] + CURRENT_STATE.REGS[RT(inst)];
 			}
 			else if(inst->func_code == 0x24) {
-				CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RS(inst)] & CURRENT_STATE.REGS[RT(inst)];
+				CURRENT_STATE.REGS[RD(inst)] = CURRENT_STATE.REGS[RS(inst)] & CURRENT_STATE.REGS[RT(inst)];
 			}
 			break;
 		case 0x0b:
-			CURRENT_STATE.EX_MEM_ALU_OUT = (CURRENT_STATE.REGS[RS(inst)] < SIGN_EX(IMM(inst))) ? 1 : 0;
-			CURRENT_STATE.EX_MEM_DEST = RT(inst);
+			CURRENT_STATE.REGS[RT(inst)] = (CURRENT_STATE.REGS[RS(inst)] < SIGN_EX(IMM(inst))) ? 1 : 0;
 			break;
 		case 0x23:
+			CURRENT_STATE.REGS[RT(inst)] = mem_read_32(CURRENT_STATE.REGS[RS(inst)] + SIGN_EX(IMM(inst)));
 			CURRENT_STATE.EX_MEM_W_VALUE = TRUE;
-			CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RS(inst)] + SIGN_EX(IMM(inst));
-			CURRENT_STATE.EX_MEM_DEST = RT(inst);
+			CURRENT_STATE.EX_MEM_ALU_OUT = RT(inst);
+			FORWARDING_BIT = FALSE;
 			break;
 		case 0x2b:
-			CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RS(inst)] + SIGN_EX(IMM(inst));
-			CURRENT_STATE.EX_MEM_DEST = RT(inst);
+			mem_write_32(CURRENT_STATE.REGS[RS(inst)] + SIGN_EX(IMM(inst)), CURRENT_STATE.REGS[RT(inst)]);	
 			break;
 		case 0xd:
 			if(RT(inst) != RS(inst))
-				CURRENT_STATE.EX_MEM_ALU_OUT = CURRENT_STATE.REGS[RS(inst)] | (IMM(inst));
+				CURRENT_STATE.REGS[RT(inst)] += CURRENT_STATE.REGS[RS(inst)] | (IMM(inst));
 			else
-				CURRENT_STATE.EX_MEM_ALU_OUT += IMM(inst);
-			CURRENT_STATE.EX_MEM_DEST = RT(inst);
+				CURRENT_STATE.REGS[RT(inst)] += IMM(inst);
 			break;
 		case 0xf:
-			CURRENT_STATE.EX_MEM_DEST = RT(inst);
-			CURRENT_STATE.EX_MEM_ALU_OUT = ((IMM(inst)) << 16);
+			CURRENT_STATE.REGS[RT(inst)] = ((IMM(inst)) << 16);
 			break;
 			
-	}
-	if(!FORWARDING_BIT){
-		if(RS(inst) == CURRENT_STATE.EX_MEM_FORWARD_REG)
-			CURRENT_STATE.REGS[RS(inst)] = CURRENT_STATE.EX_MEM_FORWARD_VALUE;
-		if(RT(inst) == CURRENT_STATE.EX_MEM_FORWARD_REG)
-			CURRENT_STATE.REGS[RT(inst)] = CURRENT_STATE.EX_MEM_FORWARD_VALUE;
-		FORWARDING_BIT = TRUE;
 	}
 
 }
@@ -246,45 +232,29 @@ void EX_Stage() {
 void MEM_Stage() {
 	if(CURRENT_STATE.PIPE_STALL[MEM_STAGE] || !CURRENT_STATE.PIPE[MEM_STAGE])
 		return;
-
 	inst = get_inst_info(CURRENT_STATE.PIPE[MEM_STAGE]);
 
-	CURRENT_STATE.MEM_WB_ALU_OUT = CURRENT_STATE.EX_MEM_ALU_OUT;
-	CURRENT_STATE.MEM_WB_DEST = CURRENT_STATE.EX_MEM_DEST;
-
-	CURRENT_STATE.EX_MEM_ALU_OUT = FALSE;
-	CURRENT_STATE.EX_MEM_DEST = FALSE;
-
 	switch(inst->opcode) {
-		case 0x2b:
-			mem_write_32(CURRENT_STATE.MEM_WB_ALU_OUT, CURRENT_STATE.REGS[CURRENT_STATE.MEM_WB_DEST]);
+		case 0x09:
+			CURRENT_STATE.REGS[RT(inst)] = CURRENT_STATE.MEM_WB_ALU_OUT;
 			break;
-	}	
+	}
+	
+	
 }
 
 void WB_Stage() {
-	if(!CURRENT_STATE.PIPE[WB_STAGE])
+	if(CURRENT_STATE.PIPE_STALL[WB_STAGE] || !CURRENT_STATE.PIPE[WB_STAGE])
 		return;
 
 	inst = get_inst_info(CURRENT_STATE.PIPE[WB_STAGE]);
-	
-	switch(OPCODE(inst)) {
+	/*
+	switch(inst->opcode) {
 		case 0x09:
-		case 0x0c:
-		case 0x0b:
-		case 0x0f:
-			CURRENT_STATE.REGS[CURRENT_STATE.MEM_WB_DEST] = CURRENT_STATE.MEM_WB_ALU_OUT;
-			break;		
-		case 0x0d:
-			CURRENT_STATE.REGS[CURRENT_STATE.MEM_WB_DEST] += CURRENT_STATE.MEM_WB_ALU_OUT;
+			CURRENT_STATE.REGS[RT(inst)] = CURRENT_STATE.MEM_WB_ALU_OUT;
 			break;
-		case 0x00:
-			CURRENT_STATE.REGS[CURRENT_STATE.MEM_WB_DEST] = CURRENT_STATE.MEM_WB_ALU_OUT;
-			break;
-		case 0x23:
-			CURRENT_STATE.REGS[CURRENT_STATE.MEM_WB_DEST] = mem_read_32(CURRENT_STATE.REGS[RS(inst)] + SIGN_EX(IMM(inst)));
-			break;			
 	}
+*/
 
 	INSTRUCTION_COUNT++;
 

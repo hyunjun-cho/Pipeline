@@ -105,6 +105,7 @@ void initialize(char *program_filename) {
     CYCLE_COUNT = 0;
     BR_BIT = TRUE;
     FORWARDING_BIT = TRUE;
+    JUMP_BIT = FALSE;
 
     for (i = 0; i < PIPE_STAGE; i++){
         CURRENT_STATE.PIPE[i] = 0;
@@ -155,7 +156,7 @@ int main(int argc, char *argv[]) {
 
     while (count != argc-1) {
         if (strcmp(argv[count], "-m") == 0) {
-            tokens = str_split(argv[++count],':');
+            tokens = str_split(argv[++count], ':');
 
             addr1 = (int)strtol(*(tokens), NULL, 16);
             addr2 = (int)strtol(*(tokens+1), NULL, 16);
@@ -166,7 +167,8 @@ int main(int argc, char *argv[]) {
             num_inst = (int)strtol(argv[++count], NULL, 10);
             num_inst_set = 1;
         } else if (strcmp(argv[count], "-p") == 0) {
-            pipe_dump_set = 1;
+//		num_inst = (int)strtol(argv[++count], NULL, 10);
+	        pipe_dump_set = 1;	
         } else {
             printf("Usage: %s [-m addr1:addr2] [-d] [-p] [-n num_instr] inputBinary\n", argv[0]);
             exit(1);
@@ -181,7 +183,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (num_inst_set && num_inst <= 0) {
-        printf("Error: The number of instructions should be positive integer\n");
+        printf("Error: The number of instructnons should be positive integer\n");
         return -1;
     }
 

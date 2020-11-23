@@ -1,0 +1,206 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BASE	run.h	49;"	d
+BRANCH_INST	run.h	90;"	d
+BRANCH_PC	util.h	/^	uint32_t BRANCH_PC;$/;"	m	struct:CPU_State_Struct
+BR_BIT	util.c	/^int BR_BIT;$/;"	v
+BYTES_PER_WORD	util.h	30;"	d
+CC	run.h	59;"	d
+COND	run.h	56;"	d
+COND_EQ	run.h	79;"	d
+COND_IN	run.h	81;"	d
+COND_LT	run.h	80;"	d
+COND_UN	run.h	78;"	d
+CPU_State	util.h	/^} CPU_State;$/;"	t	typeref:struct:CPU_State_Struct
+CPU_State_Struct	util.h	/^typedef struct CPU_State_Struct {$/;"	s
+CURRENT_STATE	util.c	/^CPU_State CURRENT_STATE;$/;"	v
+CYCLE_COUNT	util.c	/^uint64_t CYCLE_COUNT;$/;"	v
+ENCODING	run.h	66;"	d
+EXPR	run.h	69;"	d
+EX_MEM_ALU_OUT	util.h	/^	uint32_t EX_MEM_ALU_OUT;$/;"	m	struct:CPU_State_Struct
+EX_MEM_BR_TAKE	util.h	/^	uint32_t EX_MEM_BR_TAKE;$/;"	m	struct:CPU_State_Struct
+EX_MEM_BR_TARGET	util.h	/^	uint32_t EX_MEM_BR_TARGET;$/;"	m	struct:CPU_State_Struct
+EX_MEM_DEST	util.h	/^	unsigned char EX_MEM_DEST;$/;"	m	struct:CPU_State_Struct
+EX_MEM_FORWARD_REG	util.h	/^	unsigned char EX_MEM_FORWARD_REG;$/;"	m	struct:CPU_State_Struct
+EX_MEM_FORWARD_VALUE	util.h	/^	uint32_t EX_MEM_FORWARD_VALUE;$/;"	m	struct:CPU_State_Struct
+EX_MEM_NPC	util.h	/^	uint32_t EX_MEM_NPC;$/;"	m	struct:CPU_State_Struct
+EX_MEM_W_VALUE	util.h	/^	uint32_t EX_MEM_W_VALUE;$/;"	m	struct:CPU_State_Struct
+EX_STAGE	util.h	35;"	d
+FALSE	util.h	21;"	d
+FD	run.h	40;"	d
+FETCH_BIT	util.c	/^int FETCH_BIT;		\/* instruction fetch bit *\/$/;"	v
+FORWARDING_BIT	util.c	/^int FORWARDING_BIT;$/;"	v
+FS	run.h	34;"	d
+FT	run.h	37;"	d
+FUNC	run.h	22;"	d
+IDISP	run.h	54;"	d
+ID_EX_DEST	util.h	/^	unsigned char ID_EX_DEST;$/;"	m	struct:CPU_State_Struct
+ID_EX_IMM	util.h	/^	short ID_EX_IMM;$/;"	m	struct:CPU_State_Struct
+ID_EX_NPC	util.h	/^	uint32_t ID_EX_NPC;$/;"	m	struct:CPU_State_Struct
+ID_EX_REG1	util.h	/^	uint32_t ID_EX_REG1;$/;"	m	struct:CPU_State_Struct
+ID_EX_REG2	util.h	/^	uint32_t ID_EX_REG2;$/;"	m	struct:CPU_State_Struct
+ID_STAGE	util.h	34;"	d
+IF_ID_INST	util.h	/^	uint32_t IF_ID_INST;$/;"	m	struct:CPU_State_Struct
+IF_ID_NPC	util.h	/^	uint32_t IF_ID_NPC;$/;"	m	struct:CPU_State_Struct
+IF_PC	util.h	/^	uint32_t IF_PC;$/;"	m	struct:CPU_State_Struct
+IF_STAGE	util.h	33;"	d
+IMM	run.h	46;"	d
+IMM_MAX	run.h	85;"	d
+IMM_MIN	run.h	84;"	d
+INSTRUCTION_COUNT	util.c	/^int INSTRUCTION_COUNT;$/;"	v
+INST_INFO	util.c	/^instruction *INST_INFO;$/;"	v
+IOFFSET	run.h	52;"	d
+JUMP_INST	run.h	99;"	d
+JUMP_PC	util.h	/^	uint32_t JUMP_PC;$/;"	m	struct:CPU_State_Struct
+LOAD_INST	run.h	104;"	d
+LOAD_INST_BASE	run.h	109;"	d
+MAX_INSTRUCTION_NUM	util.c	/^uint64_t MAX_INSTRUCTION_NUM;$/;"	v
+MEM_DATA_SIZE	util.h	28;"	d
+MEM_DATA_START	util.h	27;"	d
+MEM_NREGIONS	util.c	28;"	d	file:
+MEM_REGIONS	util.c	/^mem_region_t MEM_REGIONS[] = {$/;"	v
+MEM_STAGE	util.h	36;"	d
+MEM_TEXT_SIZE	util.h	26;"	d
+MEM_TEXT_START	util.h	25;"	d
+MEM_WB_ALU_OUT	util.h	/^	uint32_t MEM_WB_ALU_OUT;$/;"	m	struct:CPU_State_Struct
+MEM_WB_BR_TAKE	util.h	/^	uint32_t MEM_WB_BR_TAKE;$/;"	m	struct:CPU_State_Struct
+MEM_WB_DEST	util.h	/^	unsigned char MEM_WB_DEST;$/;"	m	struct:CPU_State_Struct
+MEM_WB_FORWARD_REG	util.h	/^	unsigned char MEM_WB_FORWARD_REG;$/;"	m	struct:CPU_State_Struct
+MEM_WB_FORWARD_VALUE	util.h	/^	uint32_t MEM_WB_FORWARD_VALUE;$/;"	m	struct:CPU_State_Struct
+MEM_WB_MEM_OUT	util.h	/^	uint32_t MEM_WB_MEM_OUT;$/;"	m	struct:CPU_State_Struct
+MEM_WB_NPC	util.h	/^	uint32_t MEM_WB_NPC;$/;"	m	struct:CPU_State_Struct
+MIPS_REGS	util.h	29;"	d
+ND	run.h	60;"	d
+NUM_INST	util.c	/^int NUM_INST;$/;"	v
+OPCODE	run.h	19;"	d
+PC	util.h	/^	uint32_t PC;			\/* program counter for the IF stage*\/$/;"	m	struct:CPU_State_Struct
+PIPE	util.h	/^	uint32_t PIPE[PIPE_STAGE];	\/* PC being executed at each stage*\/$/;"	m	struct:CPU_State_Struct
+PIPE_STAGE	util.h	31;"	d
+PIPE_STALL	util.h	/^	uint32_t PIPE_STALL[PIPE_STAGE];$/;"	m	struct:CPU_State_Struct
+RD	run.h	31;"	d
+REGS	util.h	/^	uint32_t REGS[MIPS_REGS];	\/* register file *\/$/;"	m	struct:CPU_State_Struct
+REGS_LOCK	util.h	/^	uint32_t REGS_LOCK[MIPS_REGS];	\/* register lock to support stalls $/;"	m	struct:CPU_State_Struct
+RS	run.h	25;"	d
+RT	run.h	28;"	d
+RUN_BIT	util.c	/^int RUN_BIT;		\/* run bit *\/$/;"	v
+SET_BASE	run.h	50;"	d
+SET_COND	run.h	57;"	d
+SET_ENCODING	run.h	67;"	d
+SET_EXPR	run.h	70;"	d
+SET_FD	run.h	41;"	d
+SET_FS	run.h	35;"	d
+SET_FT	run.h	38;"	d
+SET_FUNC	run.h	23;"	d
+SET_IMM	run.h	47;"	d
+SET_IOFFSET	run.h	53;"	d
+SET_OPCODE	run.h	20;"	d
+SET_RD	run.h	32;"	d
+SET_RS	run.h	26;"	d
+SET_RT	run.h	29;"	d
+SET_SHAMT	run.h	44;"	d
+SET_SOURCE	run.h	73;"	d
+SET_TARGET	run.h	64;"	d
+SHAMT	run.h	43;"	d
+SIGN_EX	run.h	76;"	d
+SOURCE	run.h	72;"	d
+TARGET	run.h	63;"	d
+TF	run.h	61;"	d
+TRUE	util.h	22;"	d
+UIMM_MAX	run.h	88;"	d
+UIMM_MIN	run.h	87;"	d
+WB_STAGE	util.h	37;"	d
+_PARSE_H_	parse.h	17;"	d
+_RUN_H_	run.h	13;"	d
+_UTIL_H_	util.h	13;"	d
+array	sample_input/example02.s	/^array:	.word	3$/;"	l
+array2	sample_input/example02.s	/^array2:	.word	0x11111111$/;"	l
+cs311	sample_input/example05.s	/^cs311:$/;"	l
+cs312	sample_input/example05.s	/^cs312:$/;"	l
+cs313	sample_input/example05.s	/^cs313:$/;"	l
+cs314	sample_input/example05.s	/^cs314:$/;"	l
+cycle	util.c	/^void cycle() {$/;"	f
+data1	sample_input/double_loop.s	/^data1:	.word	10$/;"	l
+data1	sample_input/example01.s	/^data1:	.word	100$/;"	l
+data1	sample_input/example03.s	/^data1:	.word	100$/;"	l
+data1	sample_input/example05.s	/^data1:	.word	3$/;"	l
+data1	sample_input/leaf_example.s	/^data1:	.word	1$/;"	l
+data1	sample_input/various_inst.s	/^data1:	.word	1111$/;"	l
+data2	sample_input/double_loop.s	/^data2:	.word	20$/;"	l
+data2	sample_input/example01.s	/^data2:	.word	200$/;"	l
+data2	sample_input/example03.s	/^data2:	.word	200$/;"	l
+data2	sample_input/example05.s	/^data2:	.word	2147483646$/;"	l
+data2	sample_input/leaf_example.s	/^data2:	.word	2$/;"	l
+data2	sample_input/various_inst.s	/^data2:	.word	0x2222$/;"	l
+data3	sample_input/example01.s	/^data3:	.word	0x12345678$/;"	l
+data3	sample_input/example03.s	/^data3:	.word	0x12345678$/;"	l
+data3	sample_input/example05.s	/^data3:	.word	2147483647$/;"	l
+data3	sample_input/leaf_example.s	/^data3:	.word	3$/;"	l
+data4	sample_input/leaf_example.s	/^data4:	.word	4$/;"	l
+data_size	parse.c	/^int data_size;$/;"	v
+fromBinary	util.c	/^int fromBinary(const char *s){$/;"	f
+func_code	util.h	/^    short func_code;$/;"	m	struct:inst_s
+get_inst_info	run.c	/^instruction* get_inst_info(uint32_t pc) {$/;"	f
+go	util.c	/^void go() {$/;"	f
+imm	util.h	/^	        short imm;$/;"	m	union:inst_s::__anon1::__anon2::__anon3
+init_inst_info	util.c	/^void init_inst_info()$/;"	f
+init_memory	util.c	/^void init_memory() {$/;"	f
+initialize	sce212sim.c	/^void initialize(char *program_filename) {$/;"	f
+inst_s	util.h	/^typedef struct inst_s {$/;"	s
+instruction	util.h	/^} instruction;$/;"	t	typeref:struct:inst_s
+lab1	sample_input/example01.s	/^lab1:$/;"	l
+lab1	sample_input/example04.s	/^lab1:$/;"	l
+lab2	sample_input/example01.s	/^lab2:$/;"	l
+lab3	sample_input/example01.s	/^lab3:$/;"	l
+lab3	sample_input/example04.s	/^lab3:$/;"	l
+lab4	sample_input/example01.s	/^lab4:$/;"	l
+lab4	sample_input/example04.s	/^lab4:$/;"	l
+lab5	sample_input/example01.s	/^lab5:$/;"	l
+lab5	sample_input/example04.s	/^lab5:$/;"	l
+load_program	sce212sim.c	/^void load_program(char *program_filename) {                   $/;"	f
+loop	sample_input/beq_test.s	/^loop:$/;"	l
+loop1	sample_input/double_loop.s	/^loop1:$/;"	l
+loop2	sample_input/double_loop.s	/^loop2:$/;"	l
+main	sample_input/beq_test.s	/^main:$/;"	l
+main	sample_input/double_loop.s	/^main:$/;"	l
+main	sample_input/example01.s	/^main:$/;"	l
+main	sample_input/example02.s	/^main:$/;"	l
+main	sample_input/example03.s	/^main:$/;"	l
+main	sample_input/example04.s	/^main:$/;"	l
+main	sample_input/example05.s	/^main:$/;"	l
+main	sample_input/jal_test.s	/^main:$/;"	l
+main	sample_input/leaf_example.s	/^main:$/;"	l
+main	sample_input/various_inst.s	/^main:$/;"	l
+main	sce212sim.c	/^int main(int argc, char *argv[]) {$/;"	f
+mdump	util.c	/^void mdump(int start, int stop) {$/;"	f
+mem	util.h	/^    uint8_t *mem;$/;"	m	struct:__anon5
+mem_read_32	util.c	/^uint32_t mem_read_32(uint32_t address){$/;"	f
+mem_region_t	util.h	/^} mem_region_t;$/;"	t	typeref:struct:__anon5
+mem_write_32	util.c	/^void mem_write_32(uint32_t address, uint32_t value) {$/;"	f
+opcode	util.h	/^    short opcode;$/;"	m	struct:inst_s
+parsing_data	parse.c	/^void parsing_data(const char *buffer, const int index)$/;"	f
+parsing_instr	parse.c	/^instruction parsing_instr(const char *buffer, const int index)$/;"	f
+pdump	util.c	/^void pdump() {$/;"	f
+print_parse_result	parse.c	/^void print_parse_result()$/;"	f
+process_instruction	run.c	/^void process_instruction() {$/;"	f
+r	util.h	/^		} r;$/;"	m	union:inst_s::__anon1::__anon2::__anon3	typeref:struct:inst_s::__anon1::__anon2::__anon3::__anon4
+r_i	util.h	/^	    } r_i;$/;"	m	struct:inst_s::__anon1::__anon2	typeref:union:inst_s::__anon1::__anon2::__anon3
+r_i	util.h	/^	} r_i;$/;"	m	union:inst_s::__anon1	typeref:struct:inst_s::__anon1::__anon2
+r_t	util.h	/^    } r_t;$/;"	m	struct:inst_s	typeref:union:inst_s::__anon1
+rd	util.h	/^		    unsigned char rd;$/;"	m	struct:inst_s::__anon1::__anon2::__anon3::__anon4
+rdump	util.c	/^void rdump() {$/;"	f
+rs	util.h	/^	    unsigned char rs;$/;"	m	struct:inst_s::__anon1::__anon2
+rt	util.h	/^	    unsigned char rt;$/;"	m	struct:inst_s::__anon1::__anon2
+run	util.c	/^void run() {$/;"	f
+shamt	util.h	/^		    unsigned char shamt;$/;"	m	struct:inst_s::__anon1::__anon2::__anon3::__anon4
+size	util.h	/^    uint32_t start, size;$/;"	m	struct:__anon5
+start	util.h	/^    uint32_t start, size;$/;"	m	struct:__anon5
+str_split	util.c	/^char** str_split(char *a_str, const char a_delim){$/;"	f
+tail	sample_input/double_loop.s	/^tail:$/;"	l
+target	sample_input/jal_test.s	/^target:$/;"	l
+target	util.h	/^        uint32_t target;$/;"	m	union:inst_s::__anon1
+text_size	parse.c	/^int text_size;$/;"	v
+value	util.h	/^    uint32_t value;$/;"	m	struct:inst_s

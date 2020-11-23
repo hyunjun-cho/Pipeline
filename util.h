@@ -110,6 +110,7 @@ typedef struct inst_s {
     } r_t;
 
     uint32_t value;
+    uint32_t la;
     
     //int32 encoding;
     //imm_expr *expr;
@@ -136,6 +137,7 @@ extern mem_region_t MEM_REGIONS[2];
 extern int RUN_BIT;	/* run bit */
 extern int FETCH_BIT;	/* instruction fetch bit */
 extern int INSTRUCTION_COUNT;
+extern int JUMP_BIT;
 
 extern int BR_BIT;	/* Branch predictor enabled */
 extern int FORWARDING_BIT;
